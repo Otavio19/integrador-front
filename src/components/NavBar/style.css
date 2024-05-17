@@ -1,0 +1,56 @@
+.navBar {
+  position: sticky;
+  width: 200px;
+  min-height: 100vh;
+  top: 0;
+  background-color: #fff;
+  transition: 0.3s;
+  position: relative;
+  display: flex;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.navBar ul {
+  padding-left: 1rem;
+}
+
+.navBar ul li {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.3s;
+  border-bottom: 1px solid #1aab8a;
+  display: flex;
+  align-items: center;
+}
+
+.navBar ul li:hover {
+  background-color: #1aab8a;
+  border-radius: 0.4rem;
+  color: #fff;
+}
+
+.navDesc {
+  padding-left: 0.5rem;
+}
+
+.navShow {
+  display: none;
+}
+
+.navShow:checked ~ .navBar {
+  width: 4rem;
+}
+
+.navShow:checked ~ .navBar ul li .navDesc {
+  display: none;
+}
+
+.menuIcon {
+  font-size: 2rem;
+  position: absolute;
+  right: -0.5rem;
+  top: 40%;
+}

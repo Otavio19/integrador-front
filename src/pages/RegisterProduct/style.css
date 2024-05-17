@@ -1,0 +1,49 @@
+.formBox {
+  border-radius: 1rem;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  padding: 2rem;
+  position: relative;
+}
+
+.formTitle {
+  display: flex;
+  align-items: center;
+  color: #1aab8a;
+}
+
+.subTitle {
+  margin-left: 2.3rem;
+  font-size: 1.2rem;
+}
+
+.descriptionProduct {
+  max-height: 20rem;
+  min-height: 20rem;
+  margin-left: 2.3rem;
+  padding: 1rem;
+  font-size: 1rem;
+  max-width: 80%;
+  min-width: 80%;
+}
+
+.saveProduct {
+  width: 2rem;
+}
+
+.buttonsForm {
+  display: flex;
+  width: 15rem;
+  margin-left: 2.3rem;
+  margin-top: 1rem;
+  justify-content: space-between;
+}
+
+.showModal {
+  position: absolute;
+  z-index: 1;
+  width: 50%;
+  top: -10%;
+}

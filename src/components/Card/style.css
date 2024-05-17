@@ -1,0 +1,22 @@
+.cardBody {
+  background-color: #fff;
+  width: 13rem;
+  border-radius: 1.5rem;
+  margin: 1rem;
+}
+
+.cardText {
+  padding: 0.2rem 1rem;
+}
+
+.cardBody img {
+  width: 13rem;
+  height: 10rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+}
+
+.btnBox {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}

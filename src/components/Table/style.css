@@ -1,0 +1,28 @@
+.tableComponent {
+  border: 1px solid #1aab8a;
+  border-collapse: collapse;
+  cursor: default;
+}
+
+.tableComponent thead tr th {
+  background-color: #1aab8a;
+  padding: 0.5rem 1rem;
+}
+
+.tableComponent tr {
+  font-size: 1.3rem;
+  transition: 0.3s;
+}
+
+.tableComponent tr:nth-child(even) {
+  background-color: rgb(221, 228, 226);
+}
+
+.tableComponent tr:hover {
+  background-color: #1aab8a;
+  cursor: pointer;
+}
+
+.tableComponent td {
+  padding: 0.5rem 1rem;
+}

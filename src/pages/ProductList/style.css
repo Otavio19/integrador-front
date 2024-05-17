@@ -1,0 +1,11 @@
+.head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.productList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+}

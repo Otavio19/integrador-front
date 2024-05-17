@@ -1,0 +1,47 @@
+.display {
+  display: inline-block;
+  width: 20rem;
+}
+
+.inptBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.contentBox {
+  position: relative;
+}
+
+.icon {
+  height: 2.3rem;
+  width: 2rem;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.contentBox label {
+  z-index: 1;
+  white-space: nowrap;
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  transition: 0.3s;
+}
+
+.contentBox input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1pxs solid black;
+  height: 2.3rem;
+}
+
+.contentBox input:focus ~ label,
+.contentBox input:valid ~ label {
+  top: -1rem;
+  font-size: 0.9rem;
+}

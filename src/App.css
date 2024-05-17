@@ -1,0 +1,13 @@
+body {
+  background-color: #ebebeb;
+}
+
+.container {
+  display: flex;
+}
+
+.containerBox {
+  border-radius: 1rem;
+  background-color: #fff;
+  padding: 2rem;
+}
