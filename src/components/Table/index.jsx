@@ -1,23 +1,24 @@
 import "./style.css";
 import { BiSolidEdit } from "react-icons/bi";
 
-const Table = ({ dados }) => {
+const Table = ({ dados, headers }) => {
   return (
     <table className="tableComponent">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Responsável</th>
+          {Array.isArray(headers) ? (
+            headers.map((header, index) => <th key={index}>{header}</th>)
+          ) : (
+            <td colSpan="3">Nenhum Header Informado</td>
+          )}
         </tr>
       </thead>
       <tbody>
         {Array.isArray(dados) ? (
           dados.map((p, index) => (
             <tr key={index}>
-              <td>{p.id}</td>
-              <td>{p.Name}</td>
-              <td>{p.Seller}</td>
+              <td>{p.name}</td>
+              <td>{p.amount}</td>
             </tr>
           ))
         ) : (

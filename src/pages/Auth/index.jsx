@@ -26,9 +26,6 @@ const Auth = ({ setLogin }) => {
     const { name, value } = event.target;
 
     setUser({ ...user, [name]: value });
-
-    console.log(event.target.value);
-    console.log(user);
   };
 
   const createUser = async (event) => {
@@ -49,9 +46,6 @@ const Auth = ({ setLogin }) => {
         return response.json();
       })
       .then((data) => {
-        console.log("Sucess: ", data);
-        console.log("token", data.token);
-        console.log("user", data.userFound[0]);
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.userFound[0]));
         changeLogin();

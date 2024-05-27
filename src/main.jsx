@@ -55,6 +55,10 @@ const router = createBrowserRouter([
         path: "User",
         element: <User />,
       },
+      {
+        path: "/Orders/RegisterOrder",
+        element: <RegisterOrder />,
+      },
     ],
   },
 ]);

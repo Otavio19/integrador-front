@@ -11,7 +11,6 @@ const ProductList = () => {
   const URL = API_URL;
 
   useEffect(() => {
-    console.log("id company", USER_ID);
     const fetchData = async () => {
       try {
         const response = await fetch(
