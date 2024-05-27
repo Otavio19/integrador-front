@@ -12,7 +12,7 @@ import { BiSolidUserDetail } from "react-icons/bi";
 import "./style.css";
 
 const NavBar = () => {
-  const [showMenu, setShowMenu] = useState(true);
+  let [showMenu, setShowMenu] = useState(true);
 
   const handleShowMenu = () => {
     setShowMenu = !showMenu;

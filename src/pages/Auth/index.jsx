@@ -35,7 +35,7 @@ const Auth = ({ setLogin }) => {
     event.preventDefault();
     console.log("User: ", user);
 
-    fetch("http://localhost:3333/login", {
+    fetch("http://localhost:3333/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
