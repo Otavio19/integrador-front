@@ -3,9 +3,10 @@ import Table from "../../components/Table";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
+import { API_URL, USER_ID } from "../../config/api";
 
 const ClientList = () => {
-  const API_URL = "https://x8ki-letl-twmt.n7.xano.io/api:1eigxzy0/clients";
+  const API_URL = `http://localhost:3333/client/company/${USER_ID.id_company}`;
 
   const [client, setClient] = useState([{}]);
 
