@@ -1,5 +1,4 @@
 //Icons:
-import { BiSolidUser } from "react-icons/bi";
 import { BiPlusMedical } from "react-icons/bi";
 
 //Components:
@@ -26,7 +25,6 @@ const RegisterOrder = () => {
   const [selectedClient, setSelectedClient] = useState(null);
 
   // Produtos No Pedido:
-  const [productOrder, setProductOrder] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -98,7 +96,8 @@ const RegisterOrder = () => {
 
   const saveOrder = (event) => {
     event.preventDefault();
-    console.log("Pedido Salvo", product);
+    const newOrder = { ...order, products : product}
+    console.log("Pedido: ", newOrder.products[0])
   };
 
   // Input: icon, inptType, inptId, min, textLbl, getDados, name, value
