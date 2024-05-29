@@ -19,6 +19,7 @@ const Table = ({ dados, headers }) => {
             <tr key={index}>
               <td>{p.name}</td>
               <td>{p.amount}</td>
+              <td>{p.price}</td>
             </tr>
           ))
         ) : (

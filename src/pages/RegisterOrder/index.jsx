@@ -23,7 +23,7 @@ const RegisterOrder = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
-
+  const [price, setPrice] = useState(0);
   // Produtos No Pedido:
 
   useEffect(() => {
@@ -76,6 +76,7 @@ const RegisterOrder = () => {
         ...selectedProduct,
         id_product: newValue.id,
         name: newValue.name,
+        price: newValue.price,
       });
     } else {
       console.log("Nada Selecionado");
@@ -89,15 +90,56 @@ const RegisterOrder = () => {
   const addProduct = (event) => {
     event.preventDefault();
     if (selectedProduct && selectedAmount) {
-      const newProduct = { ...selectedProduct, ...selectedAmount };
+      const newProduct = {
+        ...selectedProduct,
+        ...selectedAmount,
+        price: selectedAmount.amount,
+      };
+
+      const totalAmount = parseFloat(newProduct.amount);
+      const totalPrice = parseFloat(price) + totalAmount;
+      setPrice(totalPrice.toFixed(2));
+
       setProduct((prevList) => [...prevList, newProduct]); // Adiciona o novo produto à lista
     }
   };
 
   const saveOrder = (event) => {
     event.preventDefault();
-    const newOrder = { ...order, products : product}
-    console.log("Pedido: ", newOrder.products[0])
+
+    const user = localStorage.getItem("user");
+    const userJson = JSON.parse(user);
+
+    const updateOrder = {
+      ...order,
+      price: price,
+      id_seller: userJson.id,
+      id_company: userJson.id_company,
+    };
+
+    setOrder(updateOrder);
+    const newOrder = { info: updateOrder, products: product };
+    console.log("Pedido: ", newOrder);
+
+    // fetch("http://localhost:3333/orderProduct", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(newOrder),
+    // })
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error("Network response was not ok");
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     console.log("Sucesso: ", data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Erro: ", error);
+    //   });
   };
 
   // Input: icon, inptType, inptId, min, textLbl, getDados, name, value
@@ -150,6 +192,8 @@ const RegisterOrder = () => {
           name="amount"
           getDados={getAmount}
         />
+
+        <div>{price}</div>
         <div className="buttonsForm">
           <Button text="Adicionar" event={addProduct} />
           <Button text="Salvar" event={saveOrder} />
@@ -158,7 +202,10 @@ const RegisterOrder = () => {
 
       <br />
       <div>
-        <Table dados={product} headers={["Nome", "Quantidade", "Ação"]} />
+        <Table
+          dados={product}
+          headers={["Nome", "Quantidade", "Preço", "Ação"]}
+        />
       </div>
     </div>
   );
