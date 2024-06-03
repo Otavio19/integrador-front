@@ -14,7 +14,6 @@ import TextField from "@mui/material/TextField";
 
 //Config:
 import { API_URL, USER_ID } from "../../config/api";
-import { parse } from "dotenv";
 import { Link, useParams } from "react-router-dom";
 
 const RegisterOrder = () => {

@@ -18,13 +18,15 @@ const RegisterClient = () => {
   const { id } = useParams();
   const [status, setStatus] = useState();
 
+  console.log('ID na URL: ', id)
+
   const [client, setClient] = useState();
   const [selectedClient, setSelectedClient] = useState();
 
   useEffect(() => {
     if (id) {
       const clientFetch = async () => {
-        await fetch(`${API_URL}/client/company/${USER_ID.id_company}`)
+        await fetch(`${API_URL}/client/${id}`)
           .then((response) => {
             if (!response.ok) {
               return console.log(
@@ -35,7 +37,8 @@ const RegisterClient = () => {
             return response.json();
           })
           .then((data) => {
-            setClient(data);
+            console.log('Cliente: ', data[0])
+            return setClient(data[0])
           })
           .catch((error) => {
             console.log(error);
@@ -104,20 +107,46 @@ const RegisterClient = () => {
 
   return (
     <div className="containerBox">
-      <h1>Registrar Client</h1>
+      {
+        !id ?
+        <h1>Registrar Client</h1> : <h1>Cliente Registrado</h1>
+      }
       <br />
       <form>
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <TextField
+            {
+              !id ? 
+              <TextField
               id="nameClient"
               label="Nome"
               variant="outlined"
               onChange={getText}
               name="name"
             />
+            :
+            <TextField
+              id="nameClient"
+              label="Nome"
+              variant="outlined"
+              name="name"
+              value={client?.name}
+              focused
+            />
+            }
           </Grid>
           <Grid item xs={4}>
+            {
+              id ?
+              <TextField
+              id="emailClient"
+              label="Email"
+              variant="outlined"
+              focused
+              name="email"
+              value={client?.name}
+            />
+            :
             <TextField
               id="emailClient"
               label="Email"
@@ -125,6 +154,7 @@ const RegisterClient = () => {
               onChange={getText}
               name="email"
             />
+            }
           </Grid>
         </Grid>
         <br />
@@ -142,18 +172,29 @@ const RegisterClient = () => {
             />
           </Grid>
           <Grid item xs={4}>
+            {id ? 
             <TextField
-              id="activeClient"
-              select
-              label="Ativo?"
-              defaultValue="True"
-              helperText="Selecione um estado."
-              name="active"
-              onChange={getText}
-            >
-              <MenuItem value={true}>{"Sim"}</MenuItem>
-              <MenuItem value={false}>{"Não"}</MenuItem>
-            </TextField>
+            id="activeClient"
+            label="Ativo?"
+            name="active"
+            value={client?.active}
+            helperText="Estado do Cliente"
+            focused
+          >
+          </TextField>
+          :
+            <TextField
+            id="activeClient"
+            select
+            label="Ativo?"
+            defaultValue="True"
+            helperText="Selecione um estado."
+            name="active"
+            onChange={getText}
+          >
+            <MenuItem value={true}>{"Sim"}</MenuItem>
+            <MenuItem value={false}>{"Não"}</MenuItem>
+          </TextField>}
           </Grid>
         </Grid>
       </form>

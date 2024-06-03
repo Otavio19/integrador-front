@@ -17,6 +17,7 @@ import { BiSad } from "react-icons/bi";
 
 //Config:
 import { API_URL, USER, USER_ID } from "../../config/api";
+import CardOrder from "../../components/CardOrder";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -50,7 +51,7 @@ const Orders = () => {
       <Link to="/Orders/RegisterOrder">
         <Button text="Novo Pedido" />
       </Link>
-
+      <CardOrder />
       <br />
       {!orders.length == 0 ? (
         <div>

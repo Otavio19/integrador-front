@@ -62,7 +62,7 @@ const ClientList = () => {
                   >
                     <TableCell>
                       {
-                        <Link to={`/Orders/RegisterOrder/${client.id}`}>
+                        <Link to={`/ClientList/RegisterClient/${client.id}`}>
                           <Button text={<FaEye />} />
                         </Link>
                       }
