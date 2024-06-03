@@ -40,7 +40,7 @@ const router = createBrowserRouter([
         element: <RegisterProduct />,
       },
       {
-        path: "/Orders/RegisterOrder",
+        path: "/Orders/RegisterOrder/:id",
         element: <RegisterOrder />,
       },
       {
@@ -49,6 +49,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/ClientList/RegisterClient",
+        element: <RegisterClient />,
+      },
+      {
+        path: "/ClientList/RegisterClient/:id",
         element: <RegisterClient />,
       },
       {

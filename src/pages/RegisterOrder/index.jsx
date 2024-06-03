@@ -1,213 +1,297 @@
 //Icons:
 import { BiPlusMedical } from "react-icons/bi";
+import { FaUser } from "react-icons/fa6";
+import { FaRegUser } from "react-icons/fa6";
 
 //Components:
 import Input from "../../components/Input";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import Table from "../../components/Table";
-
-//Config:
-import { API_URL, USER_ID } from "../../config/api";
+import { Grid } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 
+//Config:
+import { API_URL, USER_ID } from "../../config/api";
+import { parse } from "dotenv";
+import { Link, useParams } from "react-router-dom";
+
 const RegisterOrder = () => {
-  const URL = API_URL;
-
-  //Estado para os itens que irão vir da API
-  const [productBd, setProductBd] = useState([]);
-  const [clientBd, setClientBd] = useState([]);
-
-  // Estados para os objetos selecionados
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedAmount, setSelectedAmount] = useState(null);
-  const [selectedClient, setSelectedClient] = useState(null);
-  const [price, setPrice] = useState(0);
-  // Produtos No Pedido:
+  const { id } = useParams();
+  //Pedido completo:
+  const [orderComplete, setOrderComplete] = useState({});
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(
-          URL + `/product/company/${USER_ID.id_company}`
-        );
-
-        const jsonData = await response.json();
-        setProductBd(jsonData);
-      } catch (error) {
-        return console.log(error);
+    const fetchOrder = async () => {
+      if (id) {
+        fetch(API_URL + "/orderProduct/products/" + id)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("API Não Respondendo (Pedido Completo)");
+            }
+            return response.json();
+          })
+          .then((order) => {
+            setOrderComplete(order);
+          });
+      } else {
+        console.log("SEM ID NA URL: ", id);
       }
     };
 
-    const fetchClients = async () => {
-      try {
-        const response = await fetch(
-          URL + `/client/company/${USER_ID.id_company}`
-        );
-        const jsonData = await response.json();
-        setClientBd(jsonData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchClients();
-    fetchProducts();
+    fetchOrder();
   }, []);
 
-  const handleClientChange = (event, newValue) => {
-    if (newValue != null) {
-      setSelectedClient(newValue);
-      console.log(newValue.id);
-      setOrder({ ...order, id_client: newValue.id });
-    } else {
-      console.log("Nada Selecionado");
+  //Produtos e Clientes no Banco
+  const [productsBd, setProductsBd] = useState([]);
+  const [clientsBd, setClientsBd] = useState([]);
+  const [sellersBd, setSellersBd] = useState([]);
+
+  //Usuario Logado:
+  const [user, setUser] = useState();
+
+  const userLogged = localStorage.getItem("user");
+  const userJson = JSON.parse(userLogged);
+
+  //Dados do Formúlario
+  const [selectedClient, setSelectedClient] = useState();
+  const [selectedSeller, setSelectedSeller] = useState();
+  const [selectedProduct, setSelectedProduct] = useState();
+  const [selectedAmount, setSelectedAmount] = useState();
+  const [price, setPrice] = useState(0);
+
+  //Lista de Produto no pedido
+  const [listProduct, setListProduct] = useState([]);
+  const [orderInfo, setOrderInfo] = useState();
+
+  useEffect(() => {
+    const fetchClient = async () => {
+      fetch(API_URL + "/client/company/" + userJson.id_company)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("API Não Respondendo (Clientes)");
+          }
+          return response.json();
+        })
+        .then((clients) => {
+          setClientsBd(clients);
+        })
+        .catch((error) => console.error("(Clientes) Erro: ", error));
+    };
+
+    const fetchProduct = () => {
+      fetch(API_URL + "/product/company/" + userJson.id_company)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("API não Respondendo (Produtos)");
+          }
+          return response.json();
+        })
+        .then((products) => setProductsBd(products))
+        .catch((error) => console.error("(Produtos) Erro: ", error));
+    };
+
+    const fetchSeller = () => {
+      fetch(API_URL + "/user/company/" + userJson.id_company)
+        .then((response) => {
+          if (!response.ok) {
+            console.error("API Não Respondendo (Vendedores)");
+          }
+          return response.json();
+        })
+        .then((seller) => setSellersBd(seller))
+        .catch((error) => console.error(error));
+    };
+
+    fetchSeller();
+    fetchClient();
+    fetchProduct();
+  }, []);
+
+  const handleClientChange = (event, client) => {
+    if (client != null) {
+      setSelectedClient(client.id);
     }
   };
 
-  const [order, setOrder] = useState({});
-  const [product, setProduct] = useState([]);
+  const handleSellerChange = (event, seller) => {
+    if (seller != null) {
+      setSelectedSeller(seller.id);
+    }
+  };
 
-  // Função para atualizar o produto selecionado
-  const handleProductChange = (event, newValue) => {
-    if (newValue != null) {
+  const handleProductChange = (event, product) => {
+    if (product != null) {
       setSelectedProduct({
-        ...selectedProduct,
-        id_product: newValue.id,
-        name: newValue.name,
-        price: newValue.price,
+        id_product: product.id,
+        price: product.price,
+        name: product.name,
       });
-    } else {
-      console.log("Nada Selecionado");
     }
   };
 
   const getAmount = (event) => {
-    setSelectedAmount({ amount: event.target.value });
+    setSelectedAmount(event.target.value);
   };
 
   const addProduct = (event) => {
     event.preventDefault();
-    if (selectedProduct && selectedAmount) {
-      const newProduct = {
-        ...selectedProduct,
-        ...selectedAmount,
-        price: selectedAmount.amount,
-      };
+    const newList = [...listProduct];
 
-      const totalAmount = parseFloat(newProduct.amount);
-      const totalPrice = parseFloat(price) + totalAmount;
-      setPrice(totalPrice.toFixed(2));
+    newList.push({
+      id_product: selectedProduct.id_product,
+      price: selectedProduct.price * selectedAmount,
+      amount: selectedAmount,
+      name: selectedProduct.name,
+    });
 
-      setProduct((prevList) => [...prevList, newProduct]); // Adiciona o novo produto à lista
-    }
+    var newPrice = price + selectedProduct.price * selectedAmount;
+    setPrice(newPrice);
+    setListProduct(newList);
   };
 
   const saveOrder = (event) => {
     event.preventDefault();
 
-    const user = localStorage.getItem("user");
-    const userJson = JSON.parse(user);
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    const updateOrder = {
-      ...order,
+    setOrderInfo({
+      id_seller: selectedSeller,
+      id_client: selectedClient,
+      id_company: user.id_company,
       price: price,
-      id_seller: userJson.id,
-      id_company: userJson.id_company,
-    };
-
-    setOrder(updateOrder);
-    const newOrder = { info: updateOrder, products: product };
-    console.log("Pedido: ", newOrder);
-
-    // fetch("http://localhost:3333/orderProduct", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(newOrder),
-    // })
-    //   .then((response) => {
-    //     if (!response.ok) {
-    //       throw new Error("Network response was not ok");
-    //     }
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     console.log("Sucesso: ", data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Erro: ", error);
-    //   });
+    });
   };
 
-  // Input: icon, inptType, inptId, min, textLbl, getDados, name, value
+  useEffect(() => {
+    const newOrdem = { info: orderInfo, products: listProduct };
+
+    fetch("http://localhost:3333/orderProduct", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(newOrdem),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not Ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Pedido Inserido:", data);
+      })
+      .catch((error) => {
+        console.log("Erro", error);
+      });
+  }, [orderInfo]);
+
   return (
-    <div className="containerBox">
-      <form>
-        <h1>Registrar Pedido</h1>
-        <br />
-        <hr />
-        <h3>Dados do Pedido</h3>
+    <form className="containerBox">
+      <h1>Novo Pedido</h1>
+      <br />
+      <Grid container spacing={2} sx={{ minWidth: 750 }}>
+        <Grid item xs={4}>
+          {id ? (
+            <Input
+              textLbl="Cliente"
+              value={orderComplete?.info?.name ?? ""}
+              icon={<FaRegUser />}
+            />
+          ) : (
+            <Autocomplete
+              id="client"
+              options={clientsBd}
+              getOptionLabel={(client) => client?.client_name ?? ""}
+              value={selectedClient}
+              onChange={handleClientChange}
+              renderInput={(params) => (
+                <TextField {...params} label="Cliente" variant="outlined" />
+              )}
+            />
+          )}
+        </Grid>
+        <Grid item xs={4}>
+          {id ? (
+            <Input
+              textLbl="Vendedor"
+              icon={<FaUser />}
+              value={orderComplete?.info?.name ?? ""}
+            />
+          ) : (
+            <Autocomplete
+              id="seller"
+              options={sellersBd}
+              getOptionLabel={(seller) => seller?.name ?? ""}
+              value={selectedSeller}
+              onChange={handleSellerChange}
+              renderInput={(params) => (
+                <TextField {...params} label="Vendedor" variant="outlined" />
+              )}
+            />
+          )}
+        </Grid>
+      </Grid>
+      <br />
+      <h2>Produto:</h2>
+      <br />
+      {id ? (
+        ""
+      ) : (
         <div>
-          <Autocomplete
-            id="product"
-            options={clientBd}
-            getOptionLabel={(client) =>
-              client && client.name ? client.name : ""
-            }
-            value={selectedClient}
-            onChange={handleClientChange}
-            renderInput={(params) => (
-              <TextField {...params} label="Cliente" variant="outlined" />
-            )}
-          />
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <Autocomplete
+                id="product"
+                options={productsBd}
+                getOptionLabel={(product) =>
+                  product && product.name ? product.name : ""
+                }
+                value={selectedProduct}
+                onChange={handleProductChange}
+                renderInput={(params) => (
+                  <TextField {...params} label="Produto" variant="outlined" />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={4}>
+              <TextField
+                id="outlined-basic"
+                label="Quantidade"
+                variant="outlined"
+                onChange={getAmount}
+                value={selectedAmount}
+              />
+            </Grid>
+          </Grid>
+          <br />
+          <Button text="Adicionar Produto" event={addProduct} />
         </div>
-
-        <hr />
-        <h3>Produtos do Pedido</h3>
-
-        <div>
-          <Autocomplete
-            id="product"
-            options={productBd}
-            getOptionLabel={(product) =>
-              product && product.name ? product.name : ""
-            }
-            value={selectedProduct}
-            onChange={handleProductChange}
-            renderInput={(params) => (
-              <TextField {...params} label="Produto" variant="outlined" />
-            )}
-          />
-        </div>
-
-        <Input
-          icon={<BiPlusMedical />}
-          inptType="number"
-          min="1"
-          inptId="amount"
-          textLbl="Quantidade"
-          name="amount"
-          getDados={getAmount}
-        />
-
-        <div>{price}</div>
-        <div className="buttonsForm">
-          <Button text="Adicionar" event={addProduct} />
-          <Button text="Salvar" event={saveOrder} />
-        </div>
-      </form>
+      )}
 
       <br />
-      <div>
+      {id ? (
         <Table
-          dados={product}
-          headers={["Nome", "Quantidade", "Preço", "Ação"]}
+          headers={["Nome", "Quantidade", "Preço"]}
+          dados={orderComplete?.products}
         />
-      </div>
-    </div>
+      ) : (
+        <Table headers={["Nome", "Quantidade", "Preço"]} dados={listProduct} />
+      )}
+      <br />
+      <div>Valor Total: {id ? orderComplete?.info?.price : price}</div>
+      <br />
+      {!id ? (
+        <Button text="Salvar Pedido" event={saveOrder} />
+      ) : (
+        <Link to="/Orders">
+          <Button text="Voltar" />
+        </Link>
+      )}
+    </form>
   );
 };
 

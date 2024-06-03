@@ -8,8 +8,11 @@ import { FaRegEnvelope } from "react-icons/fa6";
 import { IoArrowRedoSharp } from "react-icons/io5";
 import { IoArrowUndo } from "react-icons/io5";
 import { useState } from "react";
+import { BiBuildings } from "react-icons/bi";
 
 const Auth = ({ setLogin }) => {
+  const [statusRegister, setStatusRegister] = useState("");
+
   const [checkBoxCheck, setCheckBoxCheck] = useState(true);
 
   const [user, setUser] = useState({});
@@ -53,10 +56,70 @@ const Auth = ({ setLogin }) => {
       .catch((error) => {
         console.error("Error", error);
       });
+
+    resetInputs();
   };
 
   const changeLogin = () => {
     setLogin(true);
+  };
+
+  // Script para registrar Usuário Novo:
+
+  const registerUser = async (event) => {
+    event.preventDefault();
+    const userForm = user;
+    console.log(userForm);
+    if (userForm.password != userForm.passwordRepeat) {
+      return setStatusRegister("Senhas Não Conferem!");
+    }
+
+    setStatusRegister("");
+
+    const validateId = await fetch(
+      `http://localhost:3333/company/validate/${userForm.id_company}`
+    ).then((company) => company.json());
+
+    if (validateId == null) {
+      return setStatusRegister("Empresa Não Existe!");
+    }
+
+    delete userForm.passwordRepeat;
+
+    const register = await fetch("http://localhost:3333/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userForm),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao realizar a requisição " + response.status);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error("Error ", error);
+      });
+
+    console.log(register);
+    setStatusRegister("Usuário Registrado!");
+    resetInputs();
+  };
+
+  const resetInputs = () => {
+    setUser({});
+    document.getElementById("emailId").value = "";
+    document.getElementById("passwordId").value = "";
+    document.getElementById("nameId").value = "";
+    document.getElementById("emailRegisterId").value = "";
+    document.getElementById("passwordRegisterId").value = "";
+    document.getElementById("repeatPassowrdId").value = "";
+    document.getElementById("idCompany").value = "";
   };
 
   return (
@@ -104,6 +167,8 @@ const Auth = ({ setLogin }) => {
           textLbl="Nome"
           icon={<FaUser />}
           inptType="text"
+          getDados={getText}
+          name="name"
         />
 
         <Input
@@ -111,6 +176,8 @@ const Auth = ({ setLogin }) => {
           textLbl="Email"
           icon={<FaRegEnvelope />}
           inptType="email"
+          name="email"
+          getDados={getText}
         />
 
         <Input
@@ -118,16 +185,30 @@ const Auth = ({ setLogin }) => {
           inptId="passwordRegisterId"
           inptType="password"
           textLbl="Senha"
+          name="password"
+          getDados={getText}
         />
 
         <Input
           icon={<FaLock />}
           inptId="repeatPassowrdId"
-          inptType="repeatPassword"
+          inptType="password"
           textLbl="Repita a Senha"
+          name="passwordRepeat"
+          getDados={getText}
         />
 
-        <Button text="Registrar" />
+        <Input
+          icon={<BiBuildings />}
+          inptId="idCompany"
+          inptType="repeatPassword"
+          textLbl="ID da Empresa"
+          name="id_company"
+          getDados={getText}
+        />
+
+        <p>{statusRegister}</p>
+        <Button text="Registrar" event={registerUser} />
       </div>
       <input
         type="checkbox"
@@ -136,7 +217,7 @@ const Auth = ({ setLogin }) => {
         checked={checkBoxCheck}
         onChange={handleChangeChecbox}
       />
-      <div className="mask" style={checkBoxPosition}>
+      <div className="mask" style={checkBoxPosition} onClick={resetInputs}>
         <h1>{checkBoxCheck ? "Bem-Vindo!" : "Bom Ve-lo Novamente!"}</h1>
         <br />
         <p>

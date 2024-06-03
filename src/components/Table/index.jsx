@@ -14,7 +14,7 @@ const Table = ({ dados, headers }) => {
         </tr>
       </thead>
       <tbody>
-        {Array.isArray(dados) ? (
+        {Array.isArray(dados) && dados.length > 0 ? (
           dados.map((p, index) => (
             <tr key={index}>
               <td>{p.name}</td>
