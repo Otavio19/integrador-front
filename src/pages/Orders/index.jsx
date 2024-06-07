@@ -3,29 +3,19 @@ import { Link } from "react-router-dom";
 import Card from "../../components/Card";
 import { useEffect, useState } from "react";
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-
-//Icon
-import { FaEye } from "react-icons/fa6";
-import { BiSad } from "react-icons/bi";
 
 //Config:
 import { API_URL, USER, USER_ID } from "../../config/api";
 import CardOrder from "../../components/CardOrder";
 
+//Icons:
+import { FaDesktop } from "react-icons/fa6";
+import { FaStore } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa6";
+import { FaClockRotateLeft } from "react-icons/fa6";
+
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const [rows, setRows] = useState([]);
-
-  function createData(client, price, seller) {
-    return { client, price, seller };
-  }
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -51,50 +41,20 @@ const Orders = () => {
       <Link to="/Orders/RegisterOrder">
         <Button text="Novo Pedido" />
       </Link>
-      <CardOrder />
-      <br />
-      {!orders.length == 0 ? (
-        <div>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Ver Pedido</TableCell>
-                  <TableCell>Cliente</TableCell>
-                  <TableCell align="right">Valor</TableCell>
-                  <TableCell align="right">Vendedor</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {orders.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell>
-                      {
-                        <Link to={`/Orders/RegisterOrder/${row.id}`}>
-                          <Button text={<FaEye />} />
-                        </Link>
-                      }
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {row.client}
-                    </TableCell>
-                    <TableCell align="right">{row.price}</TableCell>
-                    <TableCell align="right">{row.seller}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-      ) : (
-        <p>
-          {" "}
-          Nenhum Pedido Registrado <BiSad />
-        </p>
-      )}
+      {orders.map((order) => (
+        <Link to={`/Orders/RegisterOrder/${order.id}`}>
+          <CardOrder
+            key={order.id}
+            value={order.price}
+            client={order.client}
+            seller={order.seller}
+            iconSource={order.source == "system" ? <FaDesktop /> : <FaStore />}
+            iconStatus={
+              order.status == "invoiced" ? <FaCheck /> : <FaClockRotateLeft />
+            }
+          />
+        </Link>
+      ))}
     </div>
   );
 };

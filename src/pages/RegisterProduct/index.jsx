@@ -1,60 +1,80 @@
 import "./style.css";
 import Input from "../../components/Input";
+import InputSelect from "../../components/InputSelect";
 import Button from "../../components/Button";
-import { Link } from "react-router-dom";
-import { API_URL, USER_ID, TOKEN } from "../../config/api";
+import { Link, useParams } from "react-router-dom";
+import { API_URL, TOKEN } from "../../config/api";
 import { BiNotepad, BiBox, BiDollar, BiPlusMedical } from "react-icons/bi";
-import { useState } from "react";
-import Modal from "../../components/Modal";
+import { useEffect, useState } from "react";
+import { Grid } from "@mui/material";
+
+//Components
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const RegisterProduct = () => {
+  const { id } = useParams();
+
   //Criamos o objeto que vai ser salvo no BD
   const [product, setProduct] = useState({});
 
-  const user = USER_ID;
+  const [img, setImg] = useState();
 
-  const [modal, setModal] = useState(true);
-
-  const changeValue = () => {
-    setModal(true);
-  };
-
-  const saveData = (event) => {
+  const getValue = (event) => {
     const { name, value } = event.target;
     setProduct({ ...product, [name]: value });
   };
 
-  const getDados = async (evento) => {
+  const saveImg = (event) => {
     event.preventDefault();
-    console.log(product);
+    const data = new FileReader();
+    data.addEventListener("load", () => {
+      setImg(data.result);
+    });
+    data.readAsDataURL(event.target.files[0]);
+  };
+
+  const saveProduct = async (event) => {
+    event.preventDefault();
+
+    const newProduct = { ...product, img: img };
+
     try {
-      const response = await fetch(API_URL + "/product", {
+      console.log(product);
+      await fetch(API_URL + "/product", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
         },
-        body: JSON.stringify(product),
+        body: JSON.stringify(newProduct),
+      }).then((response) => {
+        !response.ok
+          ? console.log("Erro ao Registrar o Produto: " + response.statusText)
+          : console.log("Produto Registrado com Sucesso!");
       });
-
-      if (response.ok) {
-        console.log("Produto Registrado com Sucesso!");
-        setModal(false);
-        setTimeout(changeValue, 2000);
-      } else {
-        console.log("Erro ao Registrar o Produto: " + response.statusText);
-      }
     } catch (error) {
       console.log("Erro durante a requisição: ", error);
     }
   };
 
-  const showModal = {
-    display: "none",
-  };
+  useEffect(() => {
+    const fetchProduct = async () => {
+      await fetch(`${API_URL}/product/${id}`)
+        .then((response) => {
+          if (!response.ok) return console.log("Erro na requisição.");
+          return response.json();
+        })
+        .then((data) => setProduct(data[0]));
+    };
+
+    fetchProduct();
+  }, []);
 
   return (
-    <form className="formBox" onSubmit={getDados}>
+    <form className="formBox" onSubmit={saveProduct}>
       <h1 className="formTitle">
         <BiPlusMedical /> Registrar Produto
       </h1>
@@ -64,7 +84,8 @@ const RegisterProduct = () => {
         inptId="nameProduct"
         textLbl="Nome"
         name="name"
-        getDados={saveData}
+        getDados={getValue}
+        value={product?.name}
       />
 
       <Input
@@ -74,7 +95,8 @@ const RegisterProduct = () => {
         inptId="logisticProduct"
         textLbl="Quantidade em Estoque"
         name="amount"
-        getDados={saveData}
+        getDados={getValue}
+        value={product?.amount}
       />
 
       <Input
@@ -84,7 +106,8 @@ const RegisterProduct = () => {
         inptId="priceProduct"
         textLbl="Valor"
         name="price"
-        getDados={saveData}
+        getDados={getValue}
+        value={product?.price}
       />
 
       <Input
@@ -93,25 +116,44 @@ const RegisterProduct = () => {
         inptId="descriptionProduct"
         textLbl="Descrição"
         name="description"
-        getDados={saveData}
+        getDados={getValue}
+        value={product?.description}
       />
 
-      <div className="buttonsForm">
-        <Button text="Salvar" type="submit" />
-        <Link to="/ProductList">
-          <Button text="Cancelar" />
-        </Link>
-      </div>
+      <FormControl sx={{ ml: 5, width: 250 }}>
+        <InputLabel id="demo-simple-select-label">Ativo?</InputLabel>
+        <Select
+          label="Age"
+          name="active"
+          onChange={getValue}
+          value={product?.active}
+        >
+          <MenuItem value={true}>Sim</MenuItem>
+          <MenuItem value={false}>Não</MenuItem>
+        </Select>
+      </FormControl>
 
-      {modal == true ? (
-        <div className="showModal" style={showModal}>
-          <Modal text="Sucesso ao Cadastrar o Produto!" />
-        </div>
+      {id ? (
+        <img src={product?.img} alt="" className="imgProduct" />
       ) : (
-        <div className="showModal">
-          <Modal />
-        </div>
+        <>
+          <label htmlFor="imgProduct" className="selectImg">
+            Selecione a Foto...
+          </label>
+          <input type="file" onChange={saveImg} id="imgProduct" />
+        </>
       )}
+
+      <Grid container spacing={2} alignItems="center">
+        <Grid item>
+          <Button text="Salvar" type="submit" />
+        </Grid>
+        <Grid item>
+          <Link to="/ProductList">
+            <Button text="Cancelar" />
+          </Link>
+        </Grid>
+      </Grid>
     </form>
   );
 };

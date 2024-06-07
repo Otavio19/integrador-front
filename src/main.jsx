@@ -40,6 +40,10 @@ const router = createBrowserRouter([
         element: <RegisterProduct />,
       },
       {
+        path: "/ProductList/RegisterProduct/:id",
+        element: <RegisterProduct />,
+      },
+      {
         path: "/Orders/RegisterOrder/:id",
         element: <RegisterOrder />,
       },

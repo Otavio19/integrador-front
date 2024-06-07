@@ -1,9 +1,15 @@
 import "./style.css";
 
-import PropTypes from "prop-types";
-
-function Input(props) {
-  const { icon, inptType, inptId, min, textLbl, getDados, name, value } = props;
+const Input = ({
+  icon,
+  inptType,
+  inptId,
+  min,
+  textLbl,
+  getDados,
+  name,
+  value,
+}) => {
   return (
     <div className="display">
       <div className="inptBox">
@@ -18,18 +24,11 @@ function Input(props) {
             required
             value={value}
           />
-          <label htmlFor={props.inptId}>{textLbl}</label>
+          <label htmlFor={inptId}>{textLbl}</label>
         </div>
       </div>
     </div>
   );
-}
-
-Input.propTypes = {
-  icon: PropTypes.node,
-  inptType: PropTypes.string,
-  inptId: PropTypes.string,
-  textLbl: PropTypes.string,
 };
 
 export default Input;

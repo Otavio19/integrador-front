@@ -47,9 +47,6 @@ const RegisterOrder = () => {
   const [clientsBd, setClientsBd] = useState([]);
   const [sellersBd, setSellersBd] = useState([]);
 
-  //Usuario Logado:
-  const [user, setUser] = useState();
-
   const userLogged = localStorage.getItem("user");
   const userJson = JSON.parse(userLogged);
 
@@ -74,7 +71,7 @@ const RegisterOrder = () => {
           return response.json();
         })
         .then((clients) => {
-          setClientsBd(clients);
+          setClientsBd(clients.filter((client) => client.active === true));
         })
         .catch((error) => console.error("(Clientes) Erro: ", error));
     };
@@ -160,6 +157,7 @@ const RegisterOrder = () => {
       id_client: selectedClient,
       id_company: user.id_company,
       price: price,
+      source: "system",
     });
   };
 

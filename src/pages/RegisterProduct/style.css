@@ -6,6 +6,7 @@
   justify-content: left;
   padding: 2rem;
   position: relative;
+  min-width: 750px;
 }
 
 .formTitle {
@@ -33,17 +34,27 @@
   width: 2rem;
 }
 
-.buttonsForm {
-  display: flex;
+.imgProduct {
   width: 15rem;
-  margin-left: 2.3rem;
-  margin-top: 1rem;
-  justify-content: space-between;
+  height: 15rem;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  right: 5rem;
+  top: 20%;
 }
 
-.showModal {
-  position: absolute;
-  z-index: 1;
-  width: 50%;
-  top: -10%;
+#imgProduct {
+  display: none;
+}
+
+.selectImg {
+  font-size: 1.2rem;
+  margin: 1rem 2.5rem;
+  cursor: pointer;
+  border: 1px solid #1aab8a;
+  color: #1aab8a;
+  width: 15rem;
+  padding: 0.5rem;
+  text-align: center;
 }

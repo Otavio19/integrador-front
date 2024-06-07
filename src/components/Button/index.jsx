@@ -1,9 +1,9 @@
 import "./style.css";
 
-function Button(props) {
+function Button({ event, text }) {
   return (
-    <button className="btn" onClick={props.event}>
-      {props.text}
+    <button className="btn" onClick={event}>
+      {text}
     </button>
   );
 }

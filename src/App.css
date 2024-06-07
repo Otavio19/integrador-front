@@ -10,4 +10,5 @@ body {
   border-radius: 1rem;
   background-color: #fff;
   padding: 2rem;
+  min-width: 750px;
 }

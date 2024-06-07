@@ -45,6 +45,7 @@ const ProductList = () => {
             title={product.name}
             textBtn="Editar"
             iconBtn={<BiSolidTrashAlt />}
+            directTo={`/ProductList/RegisterProduct/${product.id}`}
           />
         ))}
       </div>

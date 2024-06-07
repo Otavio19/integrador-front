@@ -1,0 +1,61 @@
+.cardOrderBox {
+  border: 1px solid #1aab8a;
+  background-color: #f5f5f5;
+  color: #2c3e50;
+  width: 50%;
+  font-size: 2.5rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cardOrderBox:hover {
+  transform: scale(1.05);
+}
+
+.valueCard {
+  max-width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.infoCard {
+  display: flex;
+  font-size: 1.5rem;
+  gap: 2rem;
+  margin-top: 0.5rem;
+}
+
+.clientCard,
+.sellerCard {
+  background-color: #1aab8a;
+  color: #ffffff;
+  padding: 0.3rem 1rem;
+  border-radius: 0.5rem;
+  max-width: 50%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.iconSource {
+  position: absolute;
+  top: 1rem;
+  right: 4.5rem;
+  font-size: 1.5rem;
+}
+
+.iconStatus {
+  position: absolute;
+  top: 0;
+  padding: 1rem 0.3rem 0 0.3rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  background-color: #1aab8a;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
