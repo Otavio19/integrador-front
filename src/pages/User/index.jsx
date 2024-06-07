@@ -11,7 +11,7 @@ const User = () => {
     const fetchCompany = async () => {
       try {
         const response = await fetch(
-          API_URL + "/company/" + USER_ID.id_company
+          `${API_URL}/company/${USER_ID.id_company}`
         );
         if (!response.ok) {
           throw new Error("Erro ao obter os Dados");

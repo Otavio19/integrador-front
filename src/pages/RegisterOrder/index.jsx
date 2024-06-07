@@ -24,7 +24,7 @@ const RegisterOrder = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       if (id) {
-        fetch(API_URL + "/orderProduct/products/" + id)
+        fetch(`${API_URL}/orderProduct/products/${id}`)
           .then((response) => {
             if (!response.ok) {
               throw new Error("API Não Respondendo (Pedido Completo)");
@@ -63,7 +63,7 @@ const RegisterOrder = () => {
 
   useEffect(() => {
     const fetchClient = async () => {
-      fetch(API_URL + "/client/company/" + userJson.id_company)
+      fetch(`${API_URL}/client/company/${userJson.id_company}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error("API Não Respondendo (Clientes)");
@@ -77,7 +77,7 @@ const RegisterOrder = () => {
     };
 
     const fetchProduct = () => {
-      fetch(API_URL + "/product/company/" + userJson.id_company)
+      fetch(`${API_URL}/product/company/${USER_ID.id_company}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error("API não Respondendo (Produtos)");
@@ -89,7 +89,7 @@ const RegisterOrder = () => {
     };
 
     const fetchSeller = () => {
-      fetch(API_URL + "/user/company/" + userJson.id_company)
+      fetch(`${API_URL}/user/company/${USER_ID.id_company}`)
         .then((response) => {
           if (!response.ok) {
             console.error("API Não Respondendo (Vendedores)");
@@ -164,7 +164,7 @@ const RegisterOrder = () => {
   useEffect(() => {
     const newOrdem = { info: orderInfo, products: listProduct };
 
-    fetch("http://localhost:3333/orderProduct", {
+    fetch(`${API_URL}/orderProduct`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

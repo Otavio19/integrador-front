@@ -1,12 +1,9 @@
 import "./style.css";
 
 //Components:
-import Input from "../../components/Input";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import Table from "../../components/Table";
 import { Grid } from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 

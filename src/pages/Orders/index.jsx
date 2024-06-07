@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import * as React from "react";
 
 //Config:
-import { API_URL, USER, USER_ID } from "../../config/api";
+import { API_URL, USER_ID } from "../../config/api";
 import CardOrder from "../../components/CardOrder";
 
 //Icons:

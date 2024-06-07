@@ -8,13 +8,12 @@ import { API_URL, USER_ID } from "../../config/api";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
-  const URL = API_URL;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          URL + `/product/company/${USER_ID.id_company}`
+          `${API_URL}/product/company/${USER_ID.id_company}`
         );
         if (!response.ok) {
           throw new Error("Erro ao obter os Dados");

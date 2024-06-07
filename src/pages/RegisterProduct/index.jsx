@@ -1,7 +1,5 @@
 import "./style.css";
 import Input from "../../components/Input";
-import InputSelect from "../../components/InputSelect";
-import Button from "../../components/Button";
 import { Link, useParams } from "react-router-dom";
 import { API_URL, TOKEN } from "../../config/api";
 import { BiNotepad, BiBox, BiDollar, BiPlusMedical } from "react-icons/bi";
@@ -43,7 +41,7 @@ const RegisterProduct = () => {
 
     try {
       console.log(product);
-      await fetch(API_URL + "/product", {
+      await fetch(`${API_URL}/product`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
