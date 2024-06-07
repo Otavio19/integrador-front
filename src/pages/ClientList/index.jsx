@@ -1,3 +1,4 @@
+//Config
 import "./style.css";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
@@ -15,16 +16,15 @@ import Paper from "@mui/material/Paper";
 
 //Icon
 import { FaEye } from "react-icons/fa6";
-import { BiSad } from "react-icons/bi";
 
 const ClientList = () => {
-  const API_URL = `http://localhost:3333/client/company/${USER_ID.id_company}`;
-
   const [clientList, setClientList] = useState([{}]);
 
   useEffect(() => {
     const fetchClient = async () => {
-      const response = await fetch(API_URL);
+      const response = await fetch(
+        `${API_URL}/client/company/${USER_ID.id_company}`
+      );
       const client = await response.json();
       console.log(client);
       setClientList(client);

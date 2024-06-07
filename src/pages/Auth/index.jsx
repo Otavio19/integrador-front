@@ -10,6 +10,10 @@ import { IoArrowUndo } from "react-icons/io5";
 import { useState } from "react";
 import { BiBuildings } from "react-icons/bi";
 
+//Config
+
+import { API_URL } from "../../config/api";
+
 const Auth = ({ setLogin }) => {
   const [statusRegister, setStatusRegister] = useState("");
 
@@ -35,7 +39,7 @@ const Auth = ({ setLogin }) => {
     event.preventDefault();
     console.log("User: ", user);
 
-    fetch("http://localhost:3333/auth/login", {
+    fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +81,7 @@ const Auth = ({ setLogin }) => {
     setStatusRegister("");
 
     const validateId = await fetch(
-      `http://localhost:3333/company/validate/${userForm.id_company}`
+      `${API_URL}/company/validate/${userForm.id_company}`
     ).then((company) => company.json());
 
     if (validateId == null) {
@@ -86,7 +90,7 @@ const Auth = ({ setLogin }) => {
 
     delete userForm.passwordRepeat;
 
-    const register = await fetch("http://localhost:3333/auth/register", {
+    const register = await fetch(`${API_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
