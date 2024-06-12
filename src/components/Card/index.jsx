@@ -3,11 +3,13 @@ import "./style.css";
 
 import { Link } from "react-router-dom";
 
-function Card({ title, textBtn, iconBtn, directTo }) {
+function Card({ title, textBtn, iconBtn, directTo, img }) {
   return (
     <>
       <div className="cardBody">
-        <img src="https://via.placeholder.com/200" alt="" />
+        <div className="cardImg">
+          <img src={img ? img : "https://via.placeholder.com/200"} alt="" />
+        </div>
         <div className="cardText">
           <p className="titleCard">{title}</p>
           <div className="btnBox">

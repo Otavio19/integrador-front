@@ -18,20 +18,25 @@ const NavBar = () => {
     setShowMenu = !showMenu;
   };
 
+  const logout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
   return (
     <>
       <input type="checkbox" id="navShow" className="navShow" />
       <div className="navBar">
-        <label
-          htmlFor="navShow"
-          className="menuIcon"
-          checked={showMenu}
-          onChange={handleShowMenu}
-        >
-          {showMenu ? <BiMenu /> : <FaX />}
-        </label>
         <ul>
-          <Link to="/">
+          <li>
+            <label htmlFor="navShow">
+              <span className="navIcon">
+                <BiMenu />
+              </span>
+              <span className="navDesc">Menu</span>
+            </label>
+          </li>
+          <Link to="/" className="linkReset">
             <li>
               <span className="navIcon">
                 <BiSolidHome />
@@ -39,7 +44,7 @@ const NavBar = () => {
               <span className="navDesc">Home</span>
             </li>
           </Link>
-          <Link to="/ClientList">
+          <Link to="/ClientList" className="linkReset">
             <li>
               <span className="navIcon">
                 <FaUser />
@@ -47,7 +52,7 @@ const NavBar = () => {
               <span className="navDesc">Clientes</span>
             </li>
           </Link>
-          <Link to="/ProductList">
+          <Link to="/ProductList" className="linkReset">
             <li>
               <span className="navIcon">
                 <FaCartShopping />
@@ -55,7 +60,7 @@ const NavBar = () => {
               <span className="navDesc">Produtos</span>
             </li>
           </Link>
-          <Link to="/Orders">
+          <Link to="/Orders" className="linkReset">
             <li>
               <span className="navIcon">
                 <BiSolidTruck />
@@ -63,7 +68,7 @@ const NavBar = () => {
               <span className="navDesc">Pedidos</span>
             </li>
           </Link>
-          <Link to="/User">
+          <Link to="/User" className="linkReset">
             <li>
               <span className="navIcon">
                 <BiSolidUserDetail />
@@ -72,7 +77,7 @@ const NavBar = () => {
             </li>
           </Link>
 
-          <li>
+          <li onClick={logout}>
             <span className="navIcon">
               <IoExitOutline />
             </span>

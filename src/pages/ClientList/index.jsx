@@ -26,7 +26,6 @@ const ClientList = () => {
         `${API_URL}/client/company/${USER_ID.id_company}`
       );
       const client = await response.json();
-      console.log(client);
       setClientList(client);
     };
 
@@ -37,7 +36,7 @@ const ClientList = () => {
     <>
       <div className="containerBox">
         <div className="headContainer">
-          <h1>Client</h1>
+          <h1>Clientes Cadastrados</h1>
           <Link to="/ClientList/RegisterClient">
             <Button text="Cadastrar Novo Cliente" />
           </Link>

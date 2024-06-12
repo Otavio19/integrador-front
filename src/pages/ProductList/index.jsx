@@ -29,9 +29,9 @@ const ProductList = () => {
   }, []);
 
   return (
-    <>
+    <div className="containerBox">
       <div className="head">
-        <h1>Produtos</h1>
+        <h1>Produtos Cadastrados</h1>
         <Link to="registerProduct">
           <Button text="Cadastrar Novo Produto" />
         </Link>
@@ -45,10 +45,11 @@ const ProductList = () => {
             textBtn="Editar"
             iconBtn={<BiSolidTrashAlt />}
             directTo={`/ProductList/RegisterProduct/${product.id}`}
+            img={product.img}
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
