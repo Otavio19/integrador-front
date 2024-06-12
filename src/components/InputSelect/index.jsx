@@ -1,12 +1,14 @@
 import "./style.css";
 
-const InputSelect = () => {
+const InputSelect = ({ id, name, options }) => {
   return (
-    <select id="cars" name="cars" className="selectBox">
-      <option value="volvo">volvo</option>
-      <option value="saab">Saab</option>
-      <option value="mercedes">Mercedes</option>
-      <option value="audi">Audi</option>
+    <select id={id} name={name} className="selectBox">
+      {Array.isArray(options) &&
+        options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.text}
+          </option>
+        ))}
     </select>
   );
 };

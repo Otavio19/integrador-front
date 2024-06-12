@@ -14,7 +14,7 @@ import { BiBuildings } from "react-icons/bi";
 
 import { API_URL } from "../../config/api";
 
-const Auth = ({ setLogin }) => {
+const Auth = () => {
   const [statusRegister, setStatusRegister] = useState("");
 
   const [checkBoxCheck, setCheckBoxCheck] = useState(true);
@@ -55,7 +55,8 @@ const Auth = ({ setLogin }) => {
       .then((data) => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.userFound[0]));
-        changeLogin();
+
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error", error);
@@ -64,11 +65,7 @@ const Auth = ({ setLogin }) => {
     resetInputs();
   };
 
-  const changeLogin = () => {
-    setLogin(true);
-  };
-
-  // Script para registrar Usuário Novo:
+  // Função para registrar Usuário Novo:
 
   const registerUser = async (event) => {
     event.preventDefault();

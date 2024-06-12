@@ -3,16 +3,22 @@
   width: 13rem;
   border-radius: 1.5rem;
   margin: 1rem;
+  border: 1px solid #8c8c8c;
+  overflow: hidden;
 }
 
 .cardText {
   padding: 0.2rem 1rem;
 }
 
-.cardBody img {
-  width: 13rem;
+.cardImg img {
+  margin: 1rem auto;
+  width: 10rem;
   height: 10rem;
-  border-radius: 1.5rem 1.5rem 0 0;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0.5rem;
 }
 
 .btnBox {

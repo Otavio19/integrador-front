@@ -1,0 +1,13 @@
+.cardBoxHome {
+  display: flex;
+  gap: 1rem;
+}
+
+.cardGraphic {
+  text-align: center;
+  padding: 1rem;
+}
+
+.cardGraphic h4 {
+  margin-bottom: 1rem;
+}

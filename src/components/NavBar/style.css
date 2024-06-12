@@ -12,7 +12,13 @@
 }
 
 .navBar ul {
-  padding-left: 1rem;
+  width: 100%;
+  padding: 0 1rem;
+  color: #404040;
+}
+
+.navBar ul .linkReset {
+  color: #404040;
 }
 
 .navBar ul li {
@@ -21,7 +27,6 @@
   font-size: 1.2rem;
   cursor: pointer;
   transition: 0.3s;
-  border-bottom: 1px solid #1aab8a;
   display: flex;
   align-items: center;
 }
@@ -38,6 +43,7 @@
 
 .navShow {
   display: none;
+  transition: 0.3s;
 }
 
 .navShow:checked ~ .navBar {

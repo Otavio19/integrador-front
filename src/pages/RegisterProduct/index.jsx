@@ -11,6 +11,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Button from "../../components/Button";
+import InputSelect from "../../components/InputSelect";
 
 const RegisterProduct = () => {
   const { id } = useParams();
@@ -40,7 +42,6 @@ const RegisterProduct = () => {
     const newProduct = { ...product, img: img };
 
     try {
-      console.log(product);
       await fetch(`${API_URL}/product`, {
         method: "POST",
         headers: {
@@ -50,7 +51,12 @@ const RegisterProduct = () => {
         body: JSON.stringify(newProduct),
       }).then((response) => {
         !response.ok
-          ? console.log("Erro ao Registrar o Produto: " + response.statusText)
+          ? console.log(
+              "Erro ao Registrar o Produto: " +
+                response.statusText +
+                " Produto:" +
+                product
+            )
           : console.log("Produto Registrado com Sucesso!");
       });
     } catch (error) {
@@ -118,7 +124,7 @@ const RegisterProduct = () => {
         value={product?.description}
       />
 
-      <FormControl sx={{ ml: 5, width: 250 }}>
+      {/* <FormControl sx={{ ml: 5, width: 250 }}>
         <InputLabel id="demo-simple-select-label">Ativo?</InputLabel>
         <Select
           label="Age"
@@ -129,7 +135,15 @@ const RegisterProduct = () => {
           <MenuItem value={true}>Sim</MenuItem>
           <MenuItem value={false}>Não</MenuItem>
         </Select>
-      </FormControl>
+      </FormControl> */}
+
+      <InputSelect
+        name="active"
+        options={[
+          { value: true, text: "Sim" },
+          { value: false, text: "Não" },
+        ]}
+      />
 
       {id ? (
         <img src={product?.img} alt="" className="imgProduct" />
