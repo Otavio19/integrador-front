@@ -5,7 +5,7 @@ const CardHome = ({ icon, value, title }) => {
     <div className="cardBox">
       <div className="iconCard">{icon}</div>
       <div className="infoCardHome">
-        <div className="valueCard">{value}</div>
+        <div className="valueCardHome">{value}</div>
         <div className="tooltipCard">{value}</div>
         <div className="titleCards">{title}</div>
       </div>
