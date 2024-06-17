@@ -158,6 +158,7 @@ const RegisterOrder = () => {
       id_company: user.id_company,
       price: price,
       source: "system",
+      status: "pending",
     });
   };
 

@@ -61,16 +61,23 @@ const Home = () => {
       <div className="cardBoxHome">
         <div className="cardGraphic">
           <h4>Pedidos Faturados VS Pendentes</h4>
-          <PieChart
-            colors={["green", "red"]}
-            series={[
-              {
-                data: orderStatus,
-              },
-            ]}
-            width={400}
-            height={200}
-          />
+          {orderStatus.length > 0 ? (
+            <PieChart
+              colors={["green", "red"]}
+              series={[
+                {
+                  data: orderStatus.map((status) => ({
+                    label: status.label,
+                    value: status.value,
+                  })),
+                },
+              ]}
+              width={400}
+              height={200}
+            />
+          ) : (
+            <p>Carregando dados...</p>
+          )}
         </div>
       </div>
     </div>
