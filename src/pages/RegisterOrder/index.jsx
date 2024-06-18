@@ -1,5 +1,4 @@
 //Icons:
-import { BiPlusMedical } from "react-icons/bi";
 import { FaUser } from "react-icons/fa6";
 import { FaRegUser } from "react-icons/fa6";
 
@@ -15,8 +14,10 @@ import TextField from "@mui/material/TextField";
 //Config:
 import { API_URL, USER_ID } from "../../config/api";
 import { Link, useParams } from "react-router-dom";
+import Utils from "../../config/utils"
 
 const RegisterOrder = () => {
+  const util = new Utils()
   const { id } = useParams();
   //Pedido completo:
   const [orderComplete, setOrderComplete] = useState({});
@@ -165,13 +166,7 @@ const RegisterOrder = () => {
   useEffect(() => {
     const newOrdem = { info: orderInfo, products: listProduct };
 
-    fetch(`${API_URL}/orderProduct`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(newOrdem),
-    })
+    fetch(`${API_URL}/orderProduct`, util.option("POST", newOrdem))
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not Ok");

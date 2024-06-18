@@ -10,8 +10,10 @@ import MenuItem from "@mui/material/MenuItem";
 //Config
 import { Link, useParams } from "react-router-dom";
 import { API_URL, USER_ID } from "../../config/api";
+import Utils from "../../config/utils";
 
 const RegisterClient = () => {
+  const util = new Utils()
   const { id } = useParams();
   const [status, setStatus] = useState();
 
@@ -62,13 +64,7 @@ const RegisterClient = () => {
     };
 
     if (clientAdd) {
-      const fetchClient = fetch(`${API_URL}/client`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(clientAdd),
-      })
+      const fetchClient = fetch(`${API_URL}/client`, util.option("POST", clientAdd))
         .then((response) => {
           setStatus("");
           if (!response.ok) {
@@ -93,13 +89,7 @@ const RegisterClient = () => {
   };
 
   const editClient = () => {
-    fetch(`${API_URL}/client/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(client),
-    })
+    fetch(`${API_URL}/client/${id}`, util.option("PUT", client))
       .then((response) => {
         if (!response.ok) {
           throw new Error("Erro ao atualizar o cliente");
@@ -107,7 +97,7 @@ const RegisterClient = () => {
         return response.json();
       })
       .then((data) => {
-        setStatus("Cliente Atualizado!");
+        setStatus("Cliente Atualizado! ", data);
       })
       .catch((error) => {
         console.error("Erro:", error);
