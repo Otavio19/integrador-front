@@ -18,7 +18,14 @@ const RegisterProduct = () => {
   const { id } = useParams();
 
   //Criamos o objeto que vai ser salvo no BD
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({
+    amount: "",
+    description: "",
+    name: "",
+    price: "",
+    id_company: "",
+    active: true, // Exemplo de campo booleano
+  });
 
   const [img, setImg] = useState();
 
@@ -32,15 +39,15 @@ const RegisterProduct = () => {
     const data = new FileReader();
     data.addEventListener("load", () => {
       setImg(data.result);
+      setProduct({ ...product, img: data.result });
     });
     data.readAsDataURL(event.target.files[0]);
   };
 
   const saveProduct = async (event) => {
     event.preventDefault();
-
+    console.log("Produto: ", product);
     const newProduct = { ...product, img: img };
-
     try {
       await fetch(`${API_URL}/product`, {
         method: "POST",
@@ -48,7 +55,7 @@ const RegisterProduct = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
         },
-        body: JSON.stringify(newProduct),
+        body: JSON.stringify(product),
       }).then((response) => {
         !response.ok
           ? console.log(
@@ -124,21 +131,9 @@ const RegisterProduct = () => {
         value={product?.description}
       />
 
-      {/* <FormControl sx={{ ml: 5, width: 250 }}>
-        <InputLabel id="demo-simple-select-label">Ativo?</InputLabel>
-        <Select
-          label="Age"
-          name="active"
-          onChange={getValue}
-          value={product?.active}
-        >
-          <MenuItem value={true}>Sim</MenuItem>
-          <MenuItem value={false}>Não</MenuItem>
-        </Select>
-      </FormControl> */}
-
       <InputSelect
         name="active"
+        getDados={getValue}
         options={[
           { value: true, text: "Sim" },
           { value: false, text: "Não" },

@@ -14,11 +14,13 @@ import TextField from "@mui/material/TextField";
 //Config:
 import { API_URL, USER_ID } from "../../config/api";
 import { Link, useParams } from "react-router-dom";
-import Utils from "../../config/utils"
+import Utils from "../../config/utils";
 
 const RegisterOrder = () => {
-  const util = new Utils()
+  const util = new Utils();
   const { id } = useParams();
+
+  const { registerOk, setRegisterOk } = useState(false);
   //Pedido completo:
   const [orderComplete, setOrderComplete] = useState({});
 
@@ -175,6 +177,7 @@ const RegisterOrder = () => {
       })
       .then((data) => {
         console.log("Pedido Inserido:", data);
+        alert("Pedido Inserido!");
       })
       .catch((error) => {
         console.log("Erro", error);

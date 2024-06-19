@@ -48,7 +48,7 @@ const Home = () => {
         <CardHome
           icon={<FaDollarSign />}
           value={"R$ " + orderStatus[0]?.totalPrice}
-          title="Total Faturado"
+          title="Total Vendido"
         />
         <CardHome
           icon={<FaArrowTrendUp />}
