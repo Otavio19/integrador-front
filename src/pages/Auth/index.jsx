@@ -9,12 +9,14 @@ import { IoArrowRedoSharp } from "react-icons/io5";
 import { IoArrowUndo } from "react-icons/io5";
 import { useState } from "react";
 import { BiBuildings } from "react-icons/bi";
+import CircularProgress from "@mui/material/CircularProgress";
 
 //Config
 
 import { API_URL } from "../../config/api";
 
 const Auth = () => {
+  const [loader, setLoader] = useState(false);
   const [statusRegister, setStatusRegister] = useState("");
 
   const [checkBoxCheck, setCheckBoxCheck] = useState(true);
@@ -37,7 +39,7 @@ const Auth = () => {
 
   const createUser = async (event) => {
     event.preventDefault();
-    console.log("User: ", user);
+    setLoader(true);
 
     fetch(`${API_URL}/auth/login`, {
       method: "POST",
@@ -60,6 +62,9 @@ const Auth = () => {
       })
       .catch((error) => {
         console.error("Error", error);
+      })
+      .finally(() => {
+        setLoader(false);
       });
 
     resetInputs();
@@ -126,33 +131,37 @@ const Auth = () => {
   return (
     <div className="authBox">
       <div className="containerAuth">
-        <form action="" onSubmit={createUser}>
-          <h1>Acessar Conta</h1>
-          <ul>
-            <li>
-              <FaChrome />
-            </li>
-            <p>Acessar com o Google</p>
-          </ul>
-          <Input
-            inptId="emailId"
-            textLbl="Email"
-            icon={<FaUser />}
-            inptType="email"
-            getDados={getText}
-            name="email"
-          />
-          <Input
-            icon={<FaLock />}
-            inptId="passwordId"
-            inptType="password"
-            textLbl="Senha"
-            getDados={getText}
-            name="password"
-          />
+        {loader == false ? (
+          <form action="" onSubmit={createUser}>
+            <h1>Acessar Conta</h1>
+            <ul>
+              <li>
+                <FaChrome />
+              </li>
+              <p>Acessar com o Google</p>
+            </ul>
+            <Input
+              inptId="emailId"
+              textLbl="Email"
+              icon={<FaUser />}
+              inptType="email"
+              getDados={getText}
+              name="email"
+            />
+            <Input
+              icon={<FaLock />}
+              inptId="passwordId"
+              inptType="password"
+              textLbl="Senha"
+              getDados={getText}
+              name="password"
+            />
 
-          <Button text="Acessar" />
-        </form>
+            <Button text="Acessar" />
+          </form>
+        ) : (
+          <CircularProgress />
+        )}
       </div>
 
       <div className="containerAuth">
