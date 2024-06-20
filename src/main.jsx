@@ -13,6 +13,7 @@ import Auth from "./pages/Auth/index.jsx";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import User from "./pages/User/index.jsx";
+import Invoice from "./pages/Invoice/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: "/Orders/RegisterOrder",
         element: <RegisterOrder />,
+      },
+      {
+        path: "/Invoice",
+        element: <Invoice />,
       },
     ],
   },

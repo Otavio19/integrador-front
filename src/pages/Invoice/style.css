@@ -1,0 +1,9 @@
+.alertMsg {
+  color: red;
+  font-size: 0.8rem;
+}
+
+.buttonBox {
+  display: flex;
+  gap: 2rem;
+}

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { BiSolidTruck } from "react-icons/bi";
 import { FaUser } from "react-icons/fa6";
 import { BiSolidUserDetail } from "react-icons/bi";
+import { BiMoneyWithdraw } from "react-icons/bi";
 
 import "./style.css";
 
@@ -66,6 +67,14 @@ const NavBar = () => {
                 <BiSolidTruck />
               </span>
               <span className="navDesc">Pedidos</span>
+            </li>
+          </Link>
+          <Link to="/Invoice" className="linkReset">
+            <li>
+              <span className="navIcon">
+                <BiMoneyWithdraw />
+              </span>
+              <span className="navDesc">Faturar</span>
             </li>
           </Link>
           <Link to="/User" className="linkReset">
