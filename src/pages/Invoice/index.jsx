@@ -17,6 +17,7 @@ import Input from "../../components/Input";
 //Icons
 import { FaEye } from "react-icons/fa6";
 import { BiSearchAlt } from "react-icons/bi";
+import { BiCheckDouble } from "react-icons/bi";
 
 // Config
 import { API_URL, USER_ID } from "../../config/api";
@@ -30,6 +31,7 @@ const Invoice = () => {
   const [orders, setOrders] = useState([]);
   const [idOrder, setIdOrder] = useState();
   const [idSearch, setIdSearch] = useState();
+  const [orderFound, setOrderFound] = useState(true);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -81,9 +83,35 @@ const Invoice = () => {
   };
 
   const getText = (event) => {
-    console.log(event.target.value);
     setIdSearch(event.target.value);
   };
+
+  const getOrderById = async () => {
+    console.log("ID buscado: ", idSearch);
+    await fetch(`${API_URL}/orderProduct/order/${idSearch}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro Na Requisição.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data == null) {
+          setOrderFound(false);
+
+          return setTimeout(() => {
+            setOrderFound(true);
+          }, 3000);
+        }
+        const newOrder = {
+          ...data,
+          created_at: new Date(data.created_at),
+        };
+
+        setOrders([newOrder]);
+      });
+  };
+
   return (
     <div className="containerBox">
       <h1>Faturar Pedidos</h1>
@@ -93,7 +121,10 @@ const Invoice = () => {
           getDados={getText}
           icon={<BiSearchAlt />}
         />
+
+        <Button text="Buscar" event={getOrderById} />
       </div>
+      {!orderFound && <p className="alertMsg">Nenhum Pedido Encontrado</p>}
       <div>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -139,7 +170,7 @@ const Invoice = () => {
                           setOpen(true);
                           setIdOrder(order.id);
                         }}
-                        text={<FaEye />}
+                        text={<BiCheckDouble />}
                       />
                     )}
                   </TableCell>

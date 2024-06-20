@@ -7,3 +7,8 @@
   display: flex;
   gap: 2rem;
 }
+
+.searchBox {
+  display: flex;
+  align-items: center;
+}
