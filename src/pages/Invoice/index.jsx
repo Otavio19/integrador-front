@@ -77,7 +77,6 @@ const Invoice = () => {
       })
       .then(() => {
         handleClose();
-        window.location.reload();
       });
   };
 
