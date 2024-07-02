@@ -1,0 +1,91 @@
+.authContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.newLead {
+  text-align: center;
+  color: rgb(151, 151, 151);
+}
+
+.newLead h3 {
+  font-size: 2rem;
+}
+
+.newLead h2 {
+  font-size: 5rem;
+}
+
+.aboutContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15vh;
+}
+
+.aboutBox {
+  width: 50rem;
+  font-size: 2rem;
+}
+
+.aboutBox h2 {
+  text-align: center;
+  color: #101728;
+  font-size: 4rem;
+}
+
+.aboutBox p {
+  margin-top: 2rem;
+}
+
+.logo {
+  color: #1bab8a;
+}
+
+.oportunityBox {
+  display: flex;
+  display: flex;
+  justify-content: center;
+}
+
+.oportunityBox .oportunityImg {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+}
+
+.oportunityBox .oportunityText {
+  width: 30%;
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.pricingContainer {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  width: 80vw;
+  height: 80vh;
+  margin: 2rem auto;
+  gap: 2rem;
+  border-radius: 1rem;
+}
+
+.pricingContainer > h2 {
+  font-size: 3rem;
+}
+
+.planBox {
+  display: flex;
+  gap: 10rem;
+}

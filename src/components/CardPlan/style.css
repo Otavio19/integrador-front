@@ -1,0 +1,86 @@
+.cardPlan {
+  border: 1px solid #1bab8a;
+  border-radius: 0.8rem;
+  width: 15rem;
+  height: 23rem;
+  align-items: center;
+  color: #101728;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.cardPlan:hover {
+  transform: scale(1.1);
+}
+
+.maskPlan {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.cardPlan:hover .maskPlan {
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.cardPlan:hover .planDesc {
+  top: 0;
+}
+
+.cardPlan img {
+  width: 10rem;
+}
+
+.cardPlan h1 {
+  font-size: 2.5rem;
+}
+
+.planDesc {
+  position: absolute;
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.planDesc h1 {
+  font-size: 1.5rem;
+}
+
+.planDesc ul li {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.iconDesc {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.sucess {
+  background-color: #1bab8a;
+}
+
+.error {
+  background-color: red;
+}

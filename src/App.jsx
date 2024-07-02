@@ -2,6 +2,7 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import { Outlet } from "react-router-dom";
 import Auth from "./pages/Auth";
+import Index from "./pages/Index";
 import { useState, useEffect } from "react";
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
           </div>
         </div>
       ) : (
-        <Auth />
+        <Index />
       )}
     </div>
   );
