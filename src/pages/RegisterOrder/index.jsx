@@ -19,6 +19,7 @@ import Utils from "../../config/utils";
 const RegisterOrder = () => {
   const util = new Utils();
   const { id } = useParams();
+  const [order, setOrder] = useState();
 
   const { registerOk, setRegisterOk } = useState(false);
   //Pedido completo:
@@ -38,7 +39,6 @@ const RegisterOrder = () => {
             setOrderComplete(order);
           });
       } else {
-        console.log("SEM ID NA URL: ", id);
       }
     };
 
@@ -159,30 +159,20 @@ const RegisterOrder = () => {
       id_seller: selectedSeller,
       id_client: selectedClient,
       id_company: user.id_company,
-      price: price,
+      price: parseFloat(price.toFixed(2)),
       source: "system",
       status: "pending",
     });
+
+    setOrder({ info: orderInfo, products: listProduct });
   };
 
   useEffect(() => {
-    const newOrdem = { info: orderInfo, products: listProduct };
-
-    fetch(`${API_URL}/orderProduct`, util.option("POST", newOrdem))
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not Ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Pedido Inserido:", data);
-        alert("Pedido Inserido!");
-      })
-      .catch((error) => {
-        console.log("Erro", error);
-      });
-  }, [orderInfo]);
+    const fetchOrder = util.fetchObjetct("orderProduct", "POST", order);
+    if (fetchOrder) {
+      console.log("pedido cadastrado");
+    }
+  }, [order]);
 
   return (
     <form className="containerBox">
@@ -278,7 +268,10 @@ const RegisterOrder = () => {
         <Table headers={["Nome", "Quantidade", "Preço"]} dados={listProduct} />
       )}
       <br />
-      <div>Valor Total: {id ? orderComplete?.info?.price : price}</div>
+      <div>
+        Valor Total:{" "}
+        {id ? orderComplete?.info?.price : parseFloat(price.toFixed(2))}
+      </div>
       <br />
       {!id ? (
         <Button text="Salvar Pedido" event={saveOrder} />

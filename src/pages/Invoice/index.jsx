@@ -67,19 +67,7 @@ const Invoice = () => {
   }, []);
 
   const invoiceOrder = async () => {
-    await fetch(
-      `${API_URL}/orderProduct/invoiceOrder/${idOrder}`,
-      utils.option("PUT", {})
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erro Ao Faturar o Pedido");
-        }
-        return response.json();
-      })
-      .then(() => {
-        handleClose();
-      });
+    utils.fetchObjetct(`orderProduct/invoiceOrder/${idOrder}`, "PUT", {});
   };
 
   const getText = (event) => {
