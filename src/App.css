@@ -12,3 +12,16 @@ body {
   padding: 2rem;
   min-width: 750px;
 }
+
+.inptContainer {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.inptItem {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}

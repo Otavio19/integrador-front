@@ -61,6 +61,14 @@ const NavBar = () => {
               <span className="navDesc">Produtos</span>
             </li>
           </Link>
+          <Link to="/Category" className="linkReset">
+            <li>
+              <span className="navIcon">
+                <FaCartShopping />
+              </span>
+              <span className="navDesc">Categorias</span>
+            </li>
+          </Link>
           <Link to="/Orders" className="linkReset">
             <li>
               <span className="navIcon">

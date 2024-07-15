@@ -14,6 +14,8 @@ import Auth from "./pages/Auth/index.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import User from "./pages/User/index.jsx";
 import Invoice from "./pages/Invoice/index.jsx";
+import RegisterCategory from "./pages/RegisterCategory/index.jsx";
+import CategoryList from "./pages/CategoryList/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +73,18 @@ const router = createBrowserRouter([
       {
         path: "/Invoice",
         element: <Invoice />,
+      },
+      {
+        path: "/Category/RegisterCategory",
+        element: <RegisterCategory />,
+      },
+      {
+        path: "/Category/:id",
+        element: <RegisterCategory />,
+      },
+      {
+        path: "/Category",
+        element: <CategoryList />,
       },
     ],
   },

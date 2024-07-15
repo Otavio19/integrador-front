@@ -42,7 +42,8 @@ const ProductList = () => {
           <Card
             key={product.id}
             title={product.name}
-            textBtn="Editar"
+            textBtn="Ver"
+            category={product.category}
             iconBtn={<BiSolidTrashAlt />}
             directTo={`/ProductList/RegisterProduct/${product.id}`}
             img={product.img}

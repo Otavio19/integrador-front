@@ -13,11 +13,11 @@ import { API_URL, USER_ID } from "../../config/api";
 import Utils from "../../config/utils";
 
 const RegisterClient = () => {
-  const util = new Utils()
+  const util = new Utils();
   const { id } = useParams();
-  const [status, setStatus] = useState();
 
   const [client, setClient] = useState();
+  const [feedback, setFeedback] = useState();
 
   useEffect(() => {
     if (id) {
@@ -63,45 +63,23 @@ const RegisterClient = () => {
       password: "12345678",
     };
 
-    if (clientAdd) {
-      const fetchClient = fetch(`${API_URL}/client`, util.option("POST", clientAdd))
-        .then((response) => {
-          setStatus("");
-          if (!response.ok) {
-            return setStatus("Verifique os campos.");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          return true;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      if (fetchClient) {
-        document.getElementById("nameClient").value = "";
-        document.getElementById("emailClient").value = "";
-      }
+    const fetchClient = util.fetchObjetct("client", "POST", clientAdd);
+    if (fetchClient) {
+      setFeedback("Cliente Cadastrado com Sucesso!");
+      setTimeout(() => {
+        setFeedback("");
+      }, 3000);
     }
-
-    setStatus("Cliente Registrado!");
   };
 
   const editClient = () => {
-    fetch(`${API_URL}/client/${id}`, util.option("PUT", client))
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erro ao atualizar o cliente");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setStatus("Cliente Atualizado! ", data);
-      })
-      .catch((error) => {
-        console.error("Erro:", error);
-      });
+    const fetchClient = util.fetchObjetct(`client/${client.id}`, "PUT", client);
+    if (fetchClient) {
+      setFeedback("Cliente Atualizado com Sucesso!");
+      setTimeout(() => {
+        setFeedback("");
+      }, 3000);
+    }
   };
 
   return (
@@ -168,36 +146,21 @@ const RegisterClient = () => {
             />
           </Grid>
           <Grid item xs={4}>
-            {id ? (
-              <TextField
-                id="activeClient"
-                select
-                label="Ativo?"
-                helperText="Selecione um estado."
-                name="active"
-                onChange={getText}
-              >
-                <MenuItem value={true}>{"Sim"}</MenuItem>
-                <MenuItem value={false}>{"Não"}</MenuItem>
-              </TextField>
-            ) : (
-              <TextField
-                id="activeClient"
-                select
-                label="Ativo?"
-                defaultValue="True"
-                helperText="Selecione um estado."
-                name="active"
-                onChange={getText}
-              >
-                <MenuItem value={true}>{"Sim"}</MenuItem>
-                <MenuItem value={false}>{"Não"}</MenuItem>
-              </TextField>
-            )}
+            <TextField
+              id="activeClient"
+              select
+              label="Ativo?"
+              helperText="Selecione um estado."
+              name="active"
+              onChange={getText}
+            >
+              <MenuItem value={true}>{"Sim"}</MenuItem>
+              <MenuItem value={false}>{"Não"}</MenuItem>
+            </TextField>
           </Grid>
         </Grid>
       </form>
-      {<p>{status}</p>}
+      {<p>{feedback}</p>}
       <Grid container spacing={2}>
         <Grid item>
           {!id ? (
