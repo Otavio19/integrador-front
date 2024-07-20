@@ -1,12 +1,22 @@
 .modalBox {
-  background: #59dc98;
   color: #fff;
-  position: absolute;
-  right: -30vw;
+
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 1rem 2rem;
   cursor: default;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%, -50%);
+}
+
+.modalSucess {
+  background: #59dc98;
+}
+
+.modalError {
+  background-color: #f53e3e;
 }

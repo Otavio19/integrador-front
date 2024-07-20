@@ -1,6 +1,7 @@
 //Icons:
 import { FaUser } from "react-icons/fa6";
 import { FaRegUser } from "react-icons/fa6";
+import { BiSend } from "react-icons/bi";
 
 //Components:
 import Input from "../../components/Input";
@@ -181,11 +182,15 @@ const RegisterOrder = () => {
       <Grid container spacing={2} sx={{ minWidth: 750 }}>
         <Grid item xs={4}>
           {id ? (
-            <Input
-              textLbl="Cliente"
-              value={orderComplete?.info?.name ?? ""}
-              icon={<FaRegUser />}
-            />
+            <Link
+              to={`/ClientList/RegisterClient/${orderComplete?.info?.id_client}`}
+            >
+              <Input
+                textLbl="Cliente"
+                value={orderComplete?.info?.name ?? ""}
+                icon={<FaRegUser />}
+              />
+            </Link>
           ) : (
             <Autocomplete
               id="client"

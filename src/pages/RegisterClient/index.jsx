@@ -6,6 +6,7 @@ import Button from "../../components/Button";
 import { Grid } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
+import Modal from "../../components/Modal";
 
 //Config
 import { Link, useParams } from "react-router-dom";
@@ -16,8 +17,9 @@ const RegisterClient = () => {
   const util = new Utils();
   const { id } = useParams();
 
-  const [client, setClient] = useState();
+  const [client, setClient] = useState({});
   const [feedback, setFeedback] = useState();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -33,7 +35,8 @@ const RegisterClient = () => {
             return response.json();
           })
           .then((data) => {
-            return setClient(data[0]);
+            console.log(data);
+            return setClient(data);
           })
           .catch((error) => {
             console.log(error);
@@ -53,7 +56,7 @@ const RegisterClient = () => {
     setClient({ ...client, [name]: value });
   };
 
-  const saveClient = (event) => {
+  const saveClient = async (event) => {
     event.preventDefault();
 
     const clientAdd = {
@@ -63,13 +66,14 @@ const RegisterClient = () => {
       password: "12345678",
     };
 
-    const fetchClient = util.fetchObjetct("client", "POST", clientAdd);
-    if (fetchClient) {
-      setFeedback("Cliente Cadastrado com Sucesso!");
-      setTimeout(() => {
-        setFeedback("");
-      }, 3000);
-    }
+    const fetchClient = await util.fetchObjetct("client", "POST", clientAdd);
+    console.log("Resultado: ", fetchClient);
+    setShowModal(true);
+    setFeedback(fetchClient);
+    setTimeout(() => {
+      setFeedback("");
+      setShowModal(false);
+    }, 3000);
   };
 
   const editClient = () => {
@@ -89,46 +93,61 @@ const RegisterClient = () => {
       <form>
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            {!id ? (
-              <TextField
-                id="nameClient"
-                label="Nome"
-                variant="outlined"
-                onChange={getText}
-                name="name"
-              />
-            ) : (
-              <TextField
-                id="nameClient"
-                label="Nome"
-                variant="outlined"
-                name="name"
-                value={client?.name}
-                onChange={getText}
-                focused
-              />
-            )}
+            <TextField
+              id="nameClient"
+              label="Nome"
+              variant="outlined"
+              name="name"
+              value={client?.name}
+              onChange={getText}
+              InputLabelProps={{
+                shrink: client?.name ? true : false,
+              }}
+            />
           </Grid>
           <Grid item xs={4}>
-            {id ? (
-              <TextField
-                id="emailClient"
-                label="Email"
-                variant="outlined"
-                focused
-                name="email"
-                value={client?.email}
-                onChange={getText}
-              />
-            ) : (
-              <TextField
-                id="emailClient"
-                label="Email"
-                variant="outlined"
-                onChange={getText}
-                name="email"
-              />
-            )}
+            <TextField
+              id="cpfClient"
+              label="CPF"
+              variant="outlined"
+              onChange={getText}
+              name="cpf"
+              value={client?.cpf}
+              InputLabelProps={{
+                shrink: client?.cpf ? true : false,
+              }}
+            />
+          </Grid>
+        </Grid>
+        <br />
+        <h2>Contatos</h2>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <TextField
+              id="emailClient"
+              label="Email"
+              variant="outlined"
+              onChange={getText}
+              name="email"
+              value={client?.email}
+              InputLabelProps={{
+                shrink: client?.email ? true : false,
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <TextField
+              id="celularClient"
+              label="Celular"
+              variant="outlined"
+              onChange={getText}
+              name="phone"
+              value={client?.phone}
+              InputLabelProps={{
+                shrink: client?.phone ? true : false,
+              }}
+            />
           </Grid>
         </Grid>
         <br />
@@ -160,7 +179,6 @@ const RegisterClient = () => {
           </Grid>
         </Grid>
       </form>
-      {<p>{feedback}</p>}
       <Grid container spacing={2}>
         <Grid item>
           {!id ? (
@@ -175,6 +193,15 @@ const RegisterClient = () => {
           </Link>
         </Grid>
       </Grid>
+
+      {showModal ? (
+        <Modal
+          text={feedback.message}
+          type={feedback.type ? "modalSucess" : "modalError"}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
